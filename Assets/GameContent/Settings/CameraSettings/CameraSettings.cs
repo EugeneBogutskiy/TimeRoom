@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ namespace GameContent.Settings.CameraSettings
         public BoolReactiveProperty canZoom;
         public float minZoom;
         public float maxZoom;
+        public float rotationTime;
         public int rotationAngle;
+
+        [Header("Rotation type")]
+        public Ease easeType;
     }
 }

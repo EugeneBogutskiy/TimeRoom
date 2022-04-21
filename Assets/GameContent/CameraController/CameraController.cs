@@ -1,6 +1,6 @@
+using DG.Tweening;
 using GameContent.Services.MouseInput.Abstract;
 using GameContent.Settings.CameraSettings;
-using GameContent.Settings.MouseInputSettings;
 using UniRx;
 using UnityEngine;
 
@@ -8,6 +8,8 @@ namespace GameContent.CameraController
 {
     public class CameraController : MonoBehaviour
     {
+        private bool _isRotating;
+        
         [SerializeField]
         private Camera _camera;
 
@@ -37,12 +39,32 @@ namespace GameContent.CameraController
 
         private void RotateLeft()
         {
-            Debug.Log("rotate left");
+            if(_isRotating) return;
+            
+            var newRotation = new Vector3(transform.eulerAngles.x,
+                transform.eulerAngles.y - _cameraSettings.rotationAngle,
+                transform.eulerAngles.z);
+
+            DOTween.Sequence()
+                .OnStart(() => _isRotating = true)
+                .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
+                .OnComplete(() => _isRotating = false)
+                .SetEase(_cameraSettings.easeType);
         }
 
         private void RotateRight()
         {
-            Debug.Log("rotate right");
+            if(_isRotating) return;
+            
+            var newRotation = new Vector3(transform.eulerAngles.x,
+                transform.eulerAngles.y + _cameraSettings.rotationAngle,
+                transform.eulerAngles.z);
+            
+            DOTween.Sequence()
+                .OnStart(() => _isRotating = true)
+                .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
+                .OnComplete(() => _isRotating = false)
+                .SetEase(_cameraSettings.easeType);
         }
 
         private void OnZoom(float value)
