@@ -19,6 +19,4 @@ MonoBehaviour:
   minimumMouseDelta: 10
   canZoom:
     value: 1
-  zoomAmount: 1
-  maxZoom: 0.2
-  minZoom: 4
+  zoomAmount: 0.5

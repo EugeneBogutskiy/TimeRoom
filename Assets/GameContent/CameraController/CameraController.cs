@@ -69,16 +69,19 @@ namespace GameContent.CameraController
 
         private void OnZoom(float value)
         {
-            _camera.orthographicSize += value;
+            var newCameraSize = _camera.orthographicSize + value;
             
-            if (_camera.orthographicSize > _cameraSettings.minZoom)
+            if (newCameraSize > _cameraSettings.minZoom)
             {
-                _camera.orthographicSize = _cameraSettings.minZoom;
+                newCameraSize = _cameraSettings.minZoom;
             }
-            if (_camera.orthographicSize < _cameraSettings.maxZoom)
+            if (newCameraSize < _cameraSettings.maxZoom)
             {
-                _camera.orthographicSize = _cameraSettings.maxZoom;
+                newCameraSize = _cameraSettings.maxZoom;
             }
+
+            DOVirtual.Float(_camera.orthographicSize, newCameraSize,
+                _cameraSettings.zoomTime, f => _camera.orthographicSize = f);
         }
     }
 }

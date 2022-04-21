@@ -12,6 +12,7 @@ namespace GameContent.Settings.CameraSettings
         public float minZoom;
         public float maxZoom;
         public float rotationTime;
+        public float zoomTime;
         public int rotationAngle;
 
         [Header("Rotation type")]
