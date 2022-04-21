@@ -1,14 +1,15 @@
+using UniRx;
 using UnityEngine;
 
-public class CameraSettings : MonoBehaviour
+namespace GameContent.Settings.CameraSettings
 {
-    void Start()
+    [CreateAssetMenu(menuName = "Evgenoid/CameraSettings", fileName = "CameraSettings")]
+    public class CameraSettings : ScriptableObject
     {
-        
-    }
-
-    void Update()
-    {
-        
+        public BoolReactiveProperty canMove;
+        public BoolReactiveProperty canZoom;
+        public float minZoom;
+        public float maxZoom;
+        public int rotationAngle;
     }
 }

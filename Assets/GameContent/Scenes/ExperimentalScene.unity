@@ -177,7 +177,7 @@ Camera:
   far clip plane: 500
   field of view: 60
   orthographic: 1
-  orthographic size: 3.9
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -342,6 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 517255325}
+  - component: {fileID: 517255326}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -364,6 +365,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!114 &517255326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517255324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e7186f4f3969941a0e7a52928a2bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 226280526}
+  _cameraSettings: {fileID: 11400000, guid: 3a8f83e59d5955b499b45169480edfd0, type: 2}
 --- !u!1 &1230858885
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,6 +694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraPivot: {fileID: 517255324}
+  _mouseInputSettings: {fileID: 11400000, guid: 76e635f33221e6b4da358f3ef5066291, type: 2}
 --- !u!4 &1596258762
 Transform:
   m_ObjectHideFlags: 0

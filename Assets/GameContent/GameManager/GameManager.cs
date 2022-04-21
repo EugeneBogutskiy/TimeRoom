@@ -1,20 +1,24 @@
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
+using GameContent.Settings.MouseInputSettings;
 using UniRx;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace GameContent.GameManager
 {
-    [SerializeField]
-    private GameObject _cameraPivot;
-    
-    [SerializeField]
-    private readonly MouseInputSettings _mouseInputSettings;
-    
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        IMouseInputService mouseInputService = new MouseInputService(_mouseInputSettings);
+        [SerializeField]
+        private GameObject _cameraPivot;
+    
+        [SerializeField]
+        private MouseInputSettings _mouseInputSettings;
+    
+        private void Awake()
+        {
+            IMouseInputService mouseInputService = new MouseInputService(_mouseInputSettings);
 
-        MessageBroker.Default.Publish(mouseInputService);
+            MessageBroker.Default.Publish(mouseInputService);
+        }
     }
 }

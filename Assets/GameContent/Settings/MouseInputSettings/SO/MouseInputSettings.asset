@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: MouseInputSettings
   m_EditorClassIdentifier: 
   canMoveScene:
-    value: 0
+    value: 1
   canMoveCharacter:
-    value: 0
-  minimumMouseDelta: 1
+    value: 1
+  minimumMouseDelta: 10
+  canZoom:
+    value: 1
+  zoomAmount: 1
+  maxZoom: 0.2
+  minZoom: 4

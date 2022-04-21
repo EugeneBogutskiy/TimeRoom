@@ -16,4 +16,6 @@ MonoBehaviour:
     value: 1
   canZoom:
     value: 1
-  rotationAngle: 0
+  minZoom: 4
+  maxZoom: 0.3
+  rotationAngle: 90

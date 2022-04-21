@@ -10,5 +10,6 @@ namespace GameContent.Services.MouseInput.Abstract
         
         public ReactiveCommand<Unit> RotateLeft { get; }
         public ReactiveCommand<Unit> RotateRight { get; }
+        public ReactiveCommand<float> ZoomCommand { get; }
     }
 }
