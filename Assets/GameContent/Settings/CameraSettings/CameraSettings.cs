@@ -17,5 +17,11 @@ namespace GameContent.Settings.CameraSettings
 
         [Header("Rotation type")]
         public Ease easeType;
+
+        private void OnEnable()
+        {
+            canMove.Value = true;
+            canZoom.Value = true;
+        }
     }
 }

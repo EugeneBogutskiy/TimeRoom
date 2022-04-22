@@ -16,5 +16,11 @@ namespace GameContent.Settings.MouseInputSettings
         [Header("Mouse zoom settings")] [Space(20)]
         public BoolReactiveProperty canZoom;
         public float zoomAmount;
+
+        private void OnEnable()
+        {
+            canMoveScene.Value = true;
+            canMoveCharacter.Value = true;
+        }
     }
 }

@@ -8,8 +8,6 @@ namespace GameContent.CameraController
 {
     public class CameraController : MonoBehaviour
     {
-        private bool _isRotating;
-        
         [SerializeField]
         private Camera _camera;
 
@@ -39,36 +37,38 @@ namespace GameContent.CameraController
 
         private void RotateLeft()
         {
-            if(_isRotating) return;
+            if (!_cameraSettings.canMove.Value) return;
             
             var newRotation = new Vector3(transform.eulerAngles.x,
                 transform.eulerAngles.y - _cameraSettings.rotationAngle,
                 transform.eulerAngles.z);
 
             DOTween.Sequence()
-                .OnStart(() => _isRotating = true)
+                .OnStart(() => _cameraSettings.canMove.Value = false)
                 .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
-                .OnComplete(() => _isRotating = false)
+                .OnComplete(() => _cameraSettings.canMove.Value = true)
                 .SetEase(_cameraSettings.easeType);
         }
 
         private void RotateRight()
         {
-            if(_isRotating) return;
+            if (!_cameraSettings.canMove.Value) return;
             
             var newRotation = new Vector3(transform.eulerAngles.x,
                 transform.eulerAngles.y + _cameraSettings.rotationAngle,
                 transform.eulerAngles.z);
             
             DOTween.Sequence()
-                .OnStart(() => _isRotating = true)
+                .OnStart(() => _cameraSettings.canMove.Value = false)
                 .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
-                .OnComplete(() => _isRotating = false)
+                .OnComplete(() => _cameraSettings.canMove.Value = true)
                 .SetEase(_cameraSettings.easeType);
         }
 
         private void OnZoom(float value)
         {
+            if (!_cameraSettings.canZoom.Value) return;
+            
             var newCameraSize = _camera.orthographicSize + value;
             
             if (newCameraSize > _cameraSettings.minZoom)
