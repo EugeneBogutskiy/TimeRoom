@@ -57,6 +57,8 @@ namespace GameContent.Services.WallService
         {
             _walls = GameObject.FindGameObjectsWithTag("Wall").ToList();
             _startWallPositionY = _walls[0].transform.position.y;
+            
+            MoveWall();
         }
 
         private void OnServiceReceived(IMouseInputService service)
@@ -71,22 +73,8 @@ namespace GameContent.Services.WallService
             if (!_cameraSettings.canMove.Value) return;
             
             _ghostCamera.transform.RotateAround(_cameraPivot.transform.position, Vector3.up, - _cameraSettings.rotationAngle);
-
-            foreach (var wall in _walls)
-            {
-                var dot = Vector3.Dot(_ghostCamera.transform.position.normalized,
-                    new Vector3(wall.transform.position.x, 0, wall.transform.position.z).normalized);
-                
-                if (dot >= 0)
-                {
-                    wall.transform.DOMoveY(_settings.wallOffsetY, _settings.moveTime).SetEase(_settings.easeType);
-                }
-
-                if (dot < 0)
-                {
-                    wall.transform.DOMoveY(_startWallPositionY, _settings.moveTime).SetEase(_settings.easeType);
-                }
-            }
+            
+            MoveWall();
         }
 
         private void OnRotateRight()
@@ -96,6 +84,11 @@ namespace GameContent.Services.WallService
             
             _ghostCamera.transform.RotateAround(_cameraPivot.transform.position, Vector3.up, _cameraSettings.rotationAngle);
 
+            MoveWall();
+        }
+
+        private void MoveWall()
+        {
             foreach (var wall in _walls)
             {
                 var dot = Vector3.Dot(_ghostCamera.transform.position.normalized,
