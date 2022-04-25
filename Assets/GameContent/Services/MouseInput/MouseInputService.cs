@@ -34,6 +34,11 @@ namespace GameContent.Services.MouseInput
             _rotateRight = new ReactiveCommand<Unit>();
             _zoomCommand = new ReactiveCommand<float>();
 
+            Init();
+        }
+
+        private void Init()
+        {
             Observable.EveryUpdate()
                 .Where(_ => Input.GetMouseButtonDown(0))
                 .Subscribe(_ => OnMouseButtonDownClicked());

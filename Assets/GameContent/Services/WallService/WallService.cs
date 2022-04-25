@@ -17,8 +17,8 @@ namespace GameContent.Services.WallService
         private readonly WallServiceSettings _settings;
         private readonly MouseInputSettings _mouseInputSettings;
         private readonly CameraSettings _cameraSettings;
-
-        private GameObject _camera;
+        private readonly Camera _camera;
+        
         private GameObject _cameraPivot;
         private GameObject _ghostCamera;
         private float _startWallPositionY;
@@ -26,7 +26,7 @@ namespace GameContent.Services.WallService
         private List<GameObject> _walls;
 
         public WallService(WallServiceSettings settings, MouseInputSettings mouseInputSettings,
-            CameraSettings cameraSettings, GameObject camera, GameObject cameraPivot)
+            CameraSettings cameraSettings, Camera camera, GameObject cameraPivot)
         {
             _settings = settings;
             _mouseInputSettings = mouseInputSettings;
@@ -35,7 +35,12 @@ namespace GameContent.Services.WallService
             _cameraPivot = cameraPivot;
 
             _walls = new List<GameObject>();
+            
+            Init();
+        }
 
+        private void Init()
+        {
             _ghostCamera = new GameObject("GhostCamera")
             {
                 transform =
@@ -48,8 +53,8 @@ namespace GameContent.Services.WallService
             MessageBroker.Default.Receive<IMouseInputService>().Subscribe(OnServiceReceived);
 
             Observable.FromEvent(
-                x => SceneManager.sceneLoaded += OnSceneLoaded,
-                x => SceneManager.sceneLoaded -= OnSceneLoaded)
+                    x => SceneManager.sceneLoaded += OnSceneLoaded,
+                    x => SceneManager.sceneLoaded -= OnSceneLoaded)
                 .Subscribe();
         }
 

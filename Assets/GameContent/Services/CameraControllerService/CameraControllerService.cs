@@ -1,47 +1,48 @@
 using DG.Tweening;
+using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput.Abstract;
 using GameContent.Settings.CameraSettings;
 using UniRx;
 using UnityEngine;
 
-namespace GameContent.CameraController
+namespace GameContent.Services.CameraControllerService
 {
-    public class CameraController : MonoBehaviour
+    public class CameraControllerService : ICameraControllerService
     {
-        [SerializeField]
-        private Camera _camera;
+        private readonly Camera _camera;
+        private readonly GameObject _cameraPivot;
 
-        [SerializeField]
-        private CameraSettings _cameraSettings;
+        private readonly CameraSettings _cameraSettings;
     
-        private void Awake()
+        public CameraControllerService(Camera camera, GameObject cameraPivot, CameraSettings cameraSettings)
         {
+            _camera = camera;
+            _cameraPivot = cameraPivot;
+            _cameraSettings = cameraSettings;
+
             MessageBroker.Default.Receive<IMouseInputService>()
-                .Subscribe(OnServiceReceived).AddTo(this);
+                .Subscribe(OnServiceReceived);
         }
 
         private void OnServiceReceived(IMouseInputService mouseInputService)
         {
             mouseInputService.RotateLeft
-                .Subscribe(_ => RotateLeft())
-                .AddTo(this);
-            
+                .Subscribe(_ => RotateLeft());
+
             mouseInputService.RotateRight
-                .Subscribe(_ => RotateRight())
-                .AddTo(this);
-            
+                .Subscribe(_ => RotateRight());
+
             mouseInputService.ZoomCommand
-                .Subscribe(OnZoom)
-                .AddTo(this);
+                .Subscribe(OnZoom);
         }
 
         private void RotateLeft()
         {
             if (!_cameraSettings.canMove.Value) return;
             
-            var newRotation = new Vector3(transform.eulerAngles.x,
-                transform.eulerAngles.y - _cameraSettings.rotationAngle,
-                transform.eulerAngles.z);
+            var newRotation = new Vector3(_cameraPivot.transform.eulerAngles.x,
+                _cameraPivot.transform.eulerAngles.y - _cameraSettings.rotationAngle,
+                _cameraPivot.transform.eulerAngles.z);
 
             Rotate(newRotation);
         }
@@ -50,9 +51,9 @@ namespace GameContent.CameraController
         {
             if (!_cameraSettings.canMove.Value) return;
             
-            var newRotation = new Vector3(transform.eulerAngles.x,
-                transform.eulerAngles.y + _cameraSettings.rotationAngle,
-                transform.eulerAngles.z);
+            var newRotation = new Vector3(_cameraPivot.transform.eulerAngles.x,
+                _cameraPivot.transform.eulerAngles.y + _cameraSettings.rotationAngle,
+                _cameraPivot.transform.eulerAngles.z);
 
             Rotate(newRotation);
         }
@@ -61,7 +62,7 @@ namespace GameContent.CameraController
         {
             DOTween.Sequence()
                 .OnStart(() => _cameraSettings.canMove.Value = false)
-                .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
+                .Append(_cameraPivot.transform.DORotate(newRotation, _cameraSettings.rotationTime))
                 .OnComplete(() => _cameraSettings.canMove.Value = true)
                 .SetEase(_cameraSettings.easeType);
         }

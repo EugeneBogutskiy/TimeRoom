@@ -1,3 +1,5 @@
+using GameContent.Services.CameraControllerService;
+using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
 using GameContent.Services.WallService;
@@ -13,9 +15,9 @@ namespace GameContent.GameManager
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        private GameObject _cameraPivot;
+        private Camera _camera;
         [SerializeField]
-        private GameObject _camera;
+        private GameObject _cameraPivot;
     
         [SerializeField]
         private MouseInputSettings _mouseInputSettings;
@@ -27,10 +29,15 @@ namespace GameContent.GameManager
         private void Awake()
         {
             IMouseInputService mouseInputService = new MouseInputService(_mouseInputSettings);
+
+            ICameraControllerService cameraControllerService =
+                new CameraControllerService(_camera, _cameraPivot, _cameraSettings);
+            
             IWallService wallService = new WallService(_wallServiceSettings,
                 _mouseInputSettings, _cameraSettings, _camera, _cameraPivot);
 
             MessageBroker.Default.Publish(mouseInputService);
+            MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
         }
     }

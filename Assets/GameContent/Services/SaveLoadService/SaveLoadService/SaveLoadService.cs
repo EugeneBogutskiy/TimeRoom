@@ -13,12 +13,12 @@ namespace GameContent.Services.SaveLoadService.SaveLoadService
 
         public void Save()
         {
-            throw new System.NotImplementedException();
+            _saveLoadSystem.Save();
         }
 
         public void Load()
         {
-            throw new System.NotImplementedException();
+            _saveLoadSystem.Load();
         }
     }
 }
