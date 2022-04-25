@@ -2,6 +2,7 @@ using DG.Tweening;
 using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput.Abstract;
 using GameContent.Settings.CameraSettings;
+using GameContent.UI.UIScripts.ZoomObjectView.Abstract;
 using UniRx;
 using UnityEngine;
 
@@ -11,14 +12,18 @@ namespace GameContent.Services.CameraControllerService
     {
         private readonly Camera _camera;
         private readonly GameObject _cameraPivot;
+        private readonly GameObject _zoomObjectView;
 
         private readonly CameraSettings _cameraSettings;
+
+        private GameObject _zoomView = null;
     
-        public CameraControllerService(Camera camera, GameObject cameraPivot, CameraSettings cameraSettings)
+        public CameraControllerService(Camera camera, GameObject cameraPivot, CameraSettings cameraSettings, GameObject zoomObjectView)
         {
             _camera = camera;
             _cameraPivot = cameraPivot;
             _cameraSettings = cameraSettings;
+            _zoomObjectView = zoomObjectView;
 
             MessageBroker.Default.Receive<IMouseInputService>()
                 .Subscribe(OnServiceReceived);
@@ -34,6 +39,9 @@ namespace GameContent.Services.CameraControllerService
 
             mouseInputService.ZoomCommand
                 .Subscribe(OnZoom);
+
+            mouseInputService.ClickedObject
+                .Subscribe(OnZoomObject);
         }
 
         private void RotateLeft()
@@ -76,6 +84,29 @@ namespace GameContent.Services.CameraControllerService
 
             DOVirtual.Float(_camera.orthographicSize, newCameraSize,
                 _cameraSettings.zoomTime, f => _camera.orthographicSize = f);
+        }
+        
+        private void OnZoomObject(GameObject obj)
+        {
+            if (obj.tag != "ZoomObject") return;
+            if (_zoomView) return;
+                
+            _zoomView = Object.Instantiate(_zoomObjectView);
+            var iZoomView = _zoomView.GetComponent<IZoomObjectView>();
+                
+            iZoomView.BackCommand
+                .Subscribe(_ =>
+                {
+                    UnzoomObject();
+                    GameObject.Destroy(_zoomView);
+                    _zoomView = null;
+                })
+                .AddTo(_zoomView);
+        }
+
+        private void UnzoomObject()
+        {
+            
         }
     }
 }

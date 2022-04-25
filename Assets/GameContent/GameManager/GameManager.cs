@@ -18,6 +18,8 @@ namespace GameContent.GameManager
         private Camera _camera;
         [SerializeField]
         private GameObject _cameraPivot;
+        [SerializeField]
+        private GameObject _zoomObjectView;
     
         [SerializeField]
         private MouseInputSettings _mouseInputSettings;
@@ -31,7 +33,7 @@ namespace GameContent.GameManager
             IMouseInputService mouseInputService = new MouseInputService(_mouseInputSettings);
 
             ICameraControllerService cameraControllerService =
-                new CameraControllerService(_camera, _cameraPivot, _cameraSettings);
+                new CameraControllerService(_camera, _cameraPivot, _cameraSettings, _zoomObjectView);
             
             IWallService wallService = new WallService(_wallServiceSettings,
                 _mouseInputSettings, _cameraSettings, _camera, _cameraPivot);
