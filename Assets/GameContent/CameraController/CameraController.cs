@@ -43,11 +43,7 @@ namespace GameContent.CameraController
                 transform.eulerAngles.y - _cameraSettings.rotationAngle,
                 transform.eulerAngles.z);
 
-            DOTween.Sequence()
-                .OnStart(() => _cameraSettings.canMove.Value = false)
-                .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
-                .OnComplete(() => _cameraSettings.canMove.Value = true)
-                .SetEase(_cameraSettings.easeType);
+            Rotate(newRotation);
         }
 
         private void RotateRight()
@@ -57,7 +53,12 @@ namespace GameContent.CameraController
             var newRotation = new Vector3(transform.eulerAngles.x,
                 transform.eulerAngles.y + _cameraSettings.rotationAngle,
                 transform.eulerAngles.z);
-            
+
+            Rotate(newRotation);
+        }
+
+        private void Rotate(Vector3 newRotation)
+        {
             DOTween.Sequence()
                 .OnStart(() => _cameraSettings.canMove.Value = false)
                 .Append(transform.DORotate(newRotation, _cameraSettings.rotationTime))
@@ -70,15 +71,7 @@ namespace GameContent.CameraController
             if (!_cameraSettings.canZoom.Value) return;
             
             var newCameraSize = _camera.orthographicSize + value;
-            
-            if (newCameraSize > _cameraSettings.minZoom)
-            {
-                newCameraSize = _cameraSettings.minZoom;
-            }
-            if (newCameraSize < _cameraSettings.maxZoom)
-            {
-                newCameraSize = _cameraSettings.maxZoom;
-            }
+            newCameraSize = Mathf.Clamp(newCameraSize, _cameraSettings.maxZoom, _cameraSettings.minZoom);
 
             DOVirtual.Float(_camera.orthographicSize, newCameraSize,
                 _cameraSettings.zoomTime, f => _camera.orthographicSize = f);
