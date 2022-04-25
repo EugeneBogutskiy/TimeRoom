@@ -16,8 +16,12 @@ namespace GameContent.Services.CameraControllerService
         private readonly Vector3 _cameraPivotOriginPosition;
 
         private readonly CameraSettings _cameraSettings;
+        
+        private readonly ReactiveProperty<bool> _isOnZoomStage = new ReactiveProperty<bool>(false);
 
         private GameObject _zoomView = null;
+        
+        public IReadOnlyReactiveProperty<bool> IsOnZoomStage => _isOnZoomStage;
     
         public CameraControllerService(Camera camera, GameObject cameraPivot, CameraSettings cameraSettings, GameObject zoomObjectView)
         {
@@ -104,14 +108,17 @@ namespace GameContent.Services.CameraControllerService
                     _zoomView = null;
                 })
                 .AddTo(_zoomView);
+            
+            _cameraSettings.canZoom.Value = false;
+            _cameraSettings.canMove.Value = false;
 
             _cameraPivot.transform.DOMove(obj.transform.position, _cameraSettings.objectZoomTime);
-            
-            DOVirtual.Float(_camera.orthographicSize, _cameraSettings.maxObjectZoom,
-                _cameraSettings.objectZoomTime, f => _camera.orthographicSize = f)
-                .SetEase(_cameraSettings.zoomOnObjectEaseType);
 
-            _cameraSettings.canZoom.Value = false;
+            DOTween.Sequence()
+                .Append(DOVirtual.Float(_camera.orthographicSize, _cameraSettings.maxObjectZoom,
+                        _cameraSettings.objectZoomTime, f => _camera.orthographicSize = f)
+                    .SetEase(_cameraSettings.zoomOnObjectEaseType))
+                .OnComplete(() => _isOnZoomStage.Value = true);
         }
 
         private void UnZoomObject()
@@ -123,6 +130,8 @@ namespace GameContent.Services.CameraControllerService
                 .SetEase(_cameraSettings.zoomOnObjectEaseType);
 
             _cameraSettings.canZoom.Value = true;
+            _cameraSettings.canMove.Value = true;
+            _isOnZoomStage.Value = false;
         }
     }
 }

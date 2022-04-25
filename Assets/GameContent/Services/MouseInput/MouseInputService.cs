@@ -2,6 +2,7 @@ using GameContent.Services.MouseInput.Abstract;
 using GameContent.Settings.MouseInputSettings;
 using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GameContent.Services.MouseInput
 {
@@ -64,7 +65,9 @@ namespace GameContent.Services.MouseInput
 
             if (Vector3.Distance(_endMousePosition, _startMousePosition) < _mouseInputSettings.minimumMouseDelta)
             {
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit))
+                var isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
+                
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit) && ! isMouseOverUI)
                 {
                     _clickedObject.Execute(hit.transform.gameObject);
 
