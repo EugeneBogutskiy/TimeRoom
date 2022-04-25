@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2739867581583839664}
   - component: {fileID: 4098434210259413352}
   - component: {fileID: 3235281394192557876}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 6038568316997482315}
   - component: {fileID: 2695719089312979975}
   - component: {fileID: 1560143393142864310}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7363854539965350014}
   - component: {fileID: 8684318651792273636}
   - component: {fileID: 1148403553844730049}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196895450646747596}
   - component: {fileID: 603318399552582299}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ZoomObjectView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

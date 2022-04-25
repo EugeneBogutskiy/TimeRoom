@@ -13,6 +13,7 @@ namespace GameContent.Services.CameraControllerService
         private readonly Camera _camera;
         private readonly GameObject _cameraPivot;
         private readonly GameObject _zoomObjectView;
+        private readonly Vector3 _cameraPivotOriginPosition;
 
         private readonly CameraSettings _cameraSettings;
 
@@ -24,6 +25,7 @@ namespace GameContent.Services.CameraControllerService
             _cameraPivot = cameraPivot;
             _cameraSettings = cameraSettings;
             _zoomObjectView = zoomObjectView;
+            _cameraPivotOriginPosition = cameraPivot.transform.position;
 
             MessageBroker.Default.Receive<IMouseInputService>()
                 .Subscribe(OnServiceReceived);
@@ -97,16 +99,30 @@ namespace GameContent.Services.CameraControllerService
             iZoomView.BackCommand
                 .Subscribe(_ =>
                 {
-                    UnzoomObject();
+                    UnZoomObject();
                     GameObject.Destroy(_zoomView);
                     _zoomView = null;
                 })
                 .AddTo(_zoomView);
+
+            _cameraPivot.transform.DOMove(obj.transform.position, _cameraSettings.objectZoomTime);
+            
+            DOVirtual.Float(_camera.orthographicSize, _cameraSettings.maxObjectZoom,
+                _cameraSettings.objectZoomTime, f => _camera.orthographicSize = f)
+                .SetEase(_cameraSettings.zoomOnObjectEaseType);
+
+            _cameraSettings.canZoom.Value = false;
         }
 
-        private void UnzoomObject()
+        private void UnZoomObject()
         {
+            _cameraPivot.transform.DOMove(_cameraPivotOriginPosition, _cameraSettings.objectZoomTime);
             
+            DOVirtual.Float(_camera.orthographicSize, _cameraSettings.minObjectZoom,
+                _cameraSettings.objectZoomTime, f => _camera.orthographicSize = f)
+                .SetEase(_cameraSettings.zoomOnObjectEaseType);
+
+            _cameraSettings.canZoom.Value = true;
         }
     }
 }

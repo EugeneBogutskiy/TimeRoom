@@ -22,3 +22,7 @@ MonoBehaviour:
   zoomTime: 0.5
   rotationAngle: 90
   easeType: 30
+  minObjectZoom: 4
+  maxObjectZoom: 0.8
+  objectZoomTime: 1
+  zoomOnObjectEaseType: 3

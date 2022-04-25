@@ -18,6 +18,14 @@ namespace GameContent.Settings.CameraSettings
         [Header("Rotation type")]
         public Ease easeType;
 
+        [Header("Zoom on objects settings")] 
+        public float minObjectZoom;
+        public float maxObjectZoom;
+        public float objectZoomTime;
+
+        [Header("Zoom on object type")]
+        public Ease zoomOnObjectEaseType;
+
         private void OnEnable()
         {
             canMove.Value = true;
