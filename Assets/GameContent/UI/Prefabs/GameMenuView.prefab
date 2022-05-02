@@ -372,6 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1035364921846598227}
+  - component: {fileID: 4951328862526239721}
   m_Layer: 0
   m_Name: GameMenuView
   m_TagString: Untagged
@@ -394,6 +395,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4951328862526239721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035364921846598226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8711e630cccdfc42903718a6b2d02cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuButton: {fileID: 1035364922676361902}
+  _closePanelButton: {fileID: 1035364922946615429}
+  _save: {fileID: 1035364921154243553}
+  _load: {fileID: 1035364921568114469}
+  _exit: {fileID: 1035364921359754950}
+  _blackBack: {fileID: 1035364922489068687}
+  _menuPanel: {fileID: 1035364922236971311}
 --- !u!1 &1035364922117020408
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1381,6 +1401,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 031e5b032580ca640a205beda5707811, type: 3}
+--- !u!114 &1035364922489068687 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6747253119485033242, guid: 031e5b032580ca640a205beda5707811, type: 3}
+  m_PrefabInstance: {fileID: 6052085970223851413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1035364922489068686 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6747253119485033243, guid: 031e5b032580ca640a205beda5707811, type: 3}

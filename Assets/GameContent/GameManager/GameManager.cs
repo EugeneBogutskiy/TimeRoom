@@ -2,6 +2,8 @@ using GameContent.Services.CameraControllerService;
 using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
+using GameContent.Services.UIService;
+using GameContent.Services.UIService.Abstract;
 using GameContent.Services.WallService;
 using GameContent.Services.WallService.Abstract;
 using GameContent.Settings.CameraSettings;
@@ -20,6 +22,8 @@ namespace GameContent.GameManager
         private GameObject _cameraPivot;
         [SerializeField]
         private GameObject _zoomObjectView;
+        [SerializeField]
+        private GameObject _gameMenuView;
     
         [SerializeField]
         private MouseInputSettings _mouseInputSettings;
@@ -38,9 +42,12 @@ namespace GameContent.GameManager
             IWallService wallService = new WallService(_wallServiceSettings,
                 _mouseInputSettings, _cameraSettings, _camera, _cameraPivot);
 
+            IUIService uiService = new UIService(_gameMenuView);
+
             MessageBroker.Default.Publish(mouseInputService);
             MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
+            MessageBroker.Default.Publish(uiService);
         }
     }
 }
