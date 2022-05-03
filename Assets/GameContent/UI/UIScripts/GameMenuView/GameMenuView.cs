@@ -33,29 +33,17 @@ public class GameMenuView : MonoBehaviour, IGameMenuView
         _blackBack.gameObject.SetActive(false);
         _menuPanel.gameObject.SetActive(false);
 
-        _menuButton.OnClickAsObservable()
-            .Subscribe(_ => OnMenuButton())
-            .AddTo(this);
+        _menuButton.OnClickAsObservable().Subscribe(_ => OnMenuButton()).AddTo(this);
         
-        _closePanelButton.OnClickAsObservable()
-            .Subscribe(_ => OnClosePanelButton())
-            .AddTo(this);
+        _closePanelButton.OnClickAsObservable().Subscribe(_ => OnClosePanelButton()).AddTo(this);
 
-        _save.OnClickAsObservable()
-            .Subscribe(_ => OnSaveButton())
-            .AddTo(this);
+        _save.OnClickAsObservable().Subscribe(_ => OnSaveButton()).AddTo(this);
 
-        _load.OnClickAsObservable()
-            .Subscribe(_ => OnLoadButton())
-            .AddTo(this);
+        _load.OnClickAsObservable().Subscribe(_ => OnLoadButton()).AddTo(this);
 
-        _exit.OnClickAsObservable()
-            .Subscribe(_ => OnExit())
-            .AddTo(this);
+        _exit.OnClickAsObservable().Subscribe(_ => OnExit()).AddTo(this);
 
-        _blackBack.OnClickAsObservable()
-            .Subscribe(_ => _closePanelButton.onClick.Invoke())
-            .AddTo(this);
+        _blackBack.OnClickAsObservable().Subscribe(_ => _closePanelButton.onClick.Invoke()).AddTo(this);
     }
 
     private void OnMenuButton()

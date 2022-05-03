@@ -2,6 +2,9 @@ using GameContent.Services.CameraControllerService;
 using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
+using GameContent.Services.SaveLoadService.Abstract;
+using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
+using GameContent.Services.SaveLoadService.SaveLoadService;
 using GameContent.Services.UIService;
 using GameContent.Services.UIService.Abstract;
 using GameContent.Services.WallService;
@@ -44,10 +47,14 @@ namespace GameContent.GameManager
 
             IUIService uiService = new UIService(_gameMenuView);
 
+            ISaveLoadSystem saveLoadSystem = new BinarySaveLoadSystem();
+            ISaveLoadSystem saveLoadService = new SaveLoadService(saveLoadSystem);
+
             MessageBroker.Default.Publish(mouseInputService);
             MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
             MessageBroker.Default.Publish(uiService);
+            MessageBroker.Default.Publish(saveLoadService);
         }
     }
 }
