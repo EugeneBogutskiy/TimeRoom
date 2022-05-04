@@ -62,12 +62,14 @@ namespace GameContent.Services.MouseInput
         private void OnMouseButtonUp()
         {
             _endMousePosition = Input.mousePosition;
+            
+            var isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
+
+            if (isMouseOverUI) return;
 
             if (Vector3.Distance(_endMousePosition, _startMousePosition) < _mouseInputSettings.minimumMouseDelta)
             {
-                var isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
-                
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit) && ! isMouseOverUI)
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit))
                 {
                     _clickedObject.Execute(hit.transform.gameObject);
 
