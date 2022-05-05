@@ -1,18 +1,18 @@
-namespace GameContent.InventorySystem.Abstract
+namespace GameContent.InventorySystem.InventorySystemWithSlots.Abstract
 {
     public interface IInventory
     {
         int Capacity { get; set; }
         bool IsFull { get; }
 
-        InventoryItem GetItem(InventoryType inventoryType);
-        InventoryItem[] GetAllItems(InventoryType inventoryType);
-        InventoryItem[] GetAllItems();
-        InventoryItem[] GetEquippedItems();
+        IInventoryItem GetItem(InventoryType inventoryType);
+        IInventoryItem[] GetAllItems(InventoryType inventoryType);
+        IInventoryItem[] GetAllItems();
+        IInventoryItem[] GetEquippedItems();
         int GetItemAmount(InventoryType inventoryType);
 
-        bool TryAdd(object sender, InventoryItem item);
+        bool TryAdd(object sender, IInventoryItem item);
         void Remove(object sender, InventoryType inventoryType, int amount = 1);
-        bool HasItem(InventoryType inventoryType, out InventoryItem inventoryItem);
+        bool HasItem(InventoryType inventoryType, out IInventoryItem inventoryItem);
     }
 }

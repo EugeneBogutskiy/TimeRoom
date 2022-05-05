@@ -1,7 +1,16 @@
-namespace GameContent.InventorySystem.Abstract
+namespace GameContent.InventorySystem.InventorySystemWithSlots.Abstract
 {
     public interface IInventoryItem
     {
-        InventoryItem InventoryItem { get; }
+        IInventoryItemInfo Info { get; }
+        IInventoryItemState State { get; }
+        InventoryType InventoryType { get; }
+    }
+
+    public enum InventoryType
+    {
+        One,
+        Two,
+        Three
     }
 }

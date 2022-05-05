@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GameContent.InventorySystem.UI
+namespace GameContent.InventorySystem.InventorySystemWithSlots.UI
 {
     public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {

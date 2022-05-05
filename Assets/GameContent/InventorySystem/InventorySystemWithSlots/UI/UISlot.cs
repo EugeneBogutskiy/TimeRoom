@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GameContent.InventorySystem.UIs
+namespace GameContent.InventorySystem.InventorySystemWithSlots.UI
 {
     public class UISlot : MonoBehaviour, IDropHandler
     {

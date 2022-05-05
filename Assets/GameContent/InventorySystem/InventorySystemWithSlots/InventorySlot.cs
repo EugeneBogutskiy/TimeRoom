@@ -1,16 +1,16 @@
-using GameContent.InventorySystem.Abstract;
+using GameContent.InventorySystem.InventorySystemWithSlots.Abstract;
 
-namespace GameContent.InventorySystem
+namespace GameContent.InventorySystem.InventorySystemWithSlots
 {
     public class InventorySlot : IInventorySlot
     {
         public bool IsFull => Amount == Capacity;
         public bool IsEmpty => Item is null;
-        public InventoryItem Item { get; private set; }
-        public int Amount => IsEmpty ? 0 : Item.amount;
+        public IInventoryItem Item { get; private set; }
+        public int Amount => IsEmpty ? 0 : Item.State.Amount;
         public int Capacity { get; private set; }
         
-        public void SetItem(InventoryItem item)
+        public void SetItem(IInventoryItem item)
         {
             if (! IsEmpty)
             {
@@ -18,7 +18,7 @@ namespace GameContent.InventorySystem
             }
             
             Item = item;
-            Capacity = item.maxItemsInInventorySlot;
+            Capacity = item.Info.MaxItemsInInventorySlot;
         }
 
         public void Clear()
@@ -28,7 +28,7 @@ namespace GameContent.InventorySystem
                 return;;
             }
             
-            Item.amount = 0;
+            Item.State.Amount = 0;
             Item = null;
         }
     }
