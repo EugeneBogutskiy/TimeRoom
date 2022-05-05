@@ -4,7 +4,7 @@ namespace GameContent.InventorySystem.InventorySystemWithSlots
 {
     public class InventorySlot : IInventorySlot
     {
-        public bool IsFull => Amount == Capacity;
+        public bool IsFull => !IsEmpty && Amount == Capacity;
         public bool IsEmpty => Item is null;
         public IInventoryItem Item { get; private set; }
         public int Amount => IsEmpty ? 0 : Item.State.Amount;

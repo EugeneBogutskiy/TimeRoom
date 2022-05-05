@@ -5,7 +5,7 @@ namespace GameContent.InventorySystem.InventorySystemWithSlots.UI
 {
     public class UISlot : MonoBehaviour, IDropHandler
     {
-        public void OnDrop(PointerEventData eventData)
+        public virtual void OnDrop(PointerEventData eventData)
         {
             var otherTransform = eventData.pointerDrag.transform;
             otherTransform.SetParent(transform);

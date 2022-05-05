@@ -1,7 +1,6 @@
-using GameContent.InventorySystem.InventorySystemWithSlots;
 using GameContent.InventorySystem.InventorySystemWithSlots.Abstract;
 
-namespace GameContent.InventorySystem.Items
+namespace GameContent.InventorySystem.InventorySystemWithSlots.Items
 {
     public class Apple : IInventoryItem
     {
