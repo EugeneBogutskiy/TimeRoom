@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Capsule
   displayName: Capsule
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e44437befeb9fc54b82b6053fd4bf31d, type: 3}
   prefab: {fileID: 0}
