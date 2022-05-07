@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameContent.InventorySystem.SimpleInventorySystem.Abstract;
 using UniRx;
+using UnityEngine;
 
 namespace GameContent.InventorySystem.SimpleInventorySystem
 {
@@ -13,12 +14,14 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
 
         public IReactiveCommand<Unit> OnUpdateInventory => _onUpdateInventory;
 
-        public InventorySystem()
+        public InventorySystem(GameObject inventoryView)
         {
             _onUpdateInventory = new ReactiveCommand<Unit>();
             
             _inventoryItems = new Dictionary<InventoryItemData, InventoryItem>();
             Inventory = new List<InventoryItem>();
+
+            GameObject.Instantiate(inventoryView);
         }
 
         public void Add(InventoryItemData referenceData)

@@ -1,5 +1,8 @@
+using GameContent.InventorySystem.SimpleInventorySystem.Abstract;
 using GameContent.Services.CameraControllerService;
 using GameContent.Services.CameraControllerService.Abstract;
+using GameContent.Services.InventoryService;
+using GameContent.Services.InventoryService.Abstract;
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
 using GameContent.Services.SaveLoadService.Abstract;
@@ -27,6 +30,8 @@ namespace GameContent.GameManager
         private GameObject _zoomObjectView;
         [SerializeField]
         private GameObject _gameMenuView;
+        [SerializeField]
+        private GameObject _inventoryView;
     
         [SerializeField]
         private MouseInputSettings _mouseInputSettings;
@@ -50,11 +55,15 @@ namespace GameContent.GameManager
             ISaveLoadSystem saveLoadSystem = new BinarySaveLoadSystem();
             ISaveLoadSystem saveLoadService = new SaveLoadService(saveLoadSystem);
 
+            IInventorySystem inventorySystem = new InventorySystem.SimpleInventorySystem.InventorySystem(_inventoryView);
+            IInventoryService inventoryService = new InventoryService(inventorySystem);
+
             MessageBroker.Default.Publish(mouseInputService);
             MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
             MessageBroker.Default.Publish(uiService);
             MessageBroker.Default.Publish(saveLoadService);
+            MessageBroker.Default.Publish(inventoryService);
         }
     }
 }

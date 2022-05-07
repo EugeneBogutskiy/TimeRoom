@@ -1,5 +1,5 @@
 using GameContent.InventorySystem.SimpleInventorySystem;
-using GameContent.InventorySystem.SimpleInventorySystem.Abstract;
+using GameContent.Services.InventoryService.Abstract;
 using GameContent.UI.UIScripts.InventoryItemSlotView.Abstract;
 using GameContent.UI.UIScripts.InventoryView.Abstract;
 using UniRx;
@@ -9,7 +9,7 @@ namespace GameContent.UI.UIScripts.InventoryView
 {
     public class InventoryView : MonoBehaviour, IInventoryView
     {
-        private IInventorySystem _inventorySystem;
+        private IInventoryService _inventorySystem;
         
         [SerializeField]
         private Transform _root;
@@ -18,15 +18,18 @@ namespace GameContent.UI.UIScripts.InventoryView
 
         private void Awake()
         {
-            MessageBroker.Default.Receive<IInventorySystem>()
+            MessageBroker.Default.Receive<IInventoryService>()
                 .Subscribe(OnInventorySystemReceived)
                 .AddTo(this);
         }
 
-        private void OnInventorySystemReceived(IInventorySystem inventorySystem)
+        private void OnInventorySystemReceived(IInventoryService inventorySystem)
         {
             _inventorySystem = inventorySystem;
-            inventorySystem.OnUpdateInventory.Subscribe(_ => UpdateInventory()).AddTo(this);
+            
+            inventorySystem.InventorySystem.OnUpdateInventory
+                .Subscribe(_ => UpdateInventory())
+                .AddTo(this);
         }
 
         private void UpdateInventory()
@@ -41,7 +44,7 @@ namespace GameContent.UI.UIScripts.InventoryView
 
         private void DrawInventory()
         {
-            foreach (var item in _inventorySystem.Inventory)
+            foreach (var item in _inventorySystem.InventorySystem.Inventory)
             {
                 AddInventorySlot(item);
             }
