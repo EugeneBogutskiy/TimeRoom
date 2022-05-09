@@ -53,7 +53,7 @@ namespace GameContent.GameManager
             IUIService uiService = new UIService(_gameMenuView);
 
             ISaveLoadSystem saveLoadSystem = new BinarySaveLoadSystem();
-            ISaveLoadSystem saveLoadService = new SaveLoadService(saveLoadSystem);
+            ISaveLoadService saveLoadService = new SaveLoadService(saveLoadSystem);
 
             IInventorySystem inventorySystem = new InventorySystem.SimpleInventorySystem.InventorySystem(_inventoryView);
             IInventoryService inventoryService = new InventoryService(inventorySystem);

@@ -1,8 +1,9 @@
 using GameContent.Services.SaveLoadService.Abstract;
+using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
 
 namespace GameContent.Services.SaveLoadService.SaveLoadService
 {
-    public class SaveLoadService : ISaveLoadSystem
+    public class SaveLoadService : ISaveLoadService
     {
         private readonly ISaveLoadSystem _saveLoadSystem;
         
@@ -11,14 +12,14 @@ namespace GameContent.Services.SaveLoadService.SaveLoadService
             _saveLoadSystem = saveLoadSystem;
         }
 
-        public void Save()
+        public void Save(SaveData data)
         {
-            _saveLoadSystem.Save();
+            _saveLoadSystem.Save(data);
         }
 
-        public void Load()
+        public SaveData Load()
         {
-            _saveLoadSystem.Load();
+            return _saveLoadSystem.Load();
         }
     }
 }
