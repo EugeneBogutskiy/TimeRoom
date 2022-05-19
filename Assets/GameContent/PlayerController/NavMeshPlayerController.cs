@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using DG.Tweening;
 using GameContent.PlayerController.Abstract;
 using GameContent.Services.CameraControllerService.Abstract;
 using GameContent.Services.MouseInput.Abstract;
@@ -9,13 +11,29 @@ namespace GameContent.PlayerController
 {
     public class NavMeshPlayerController : MonoBehaviour, IPlayerController
     {
-        private NavMeshAgent _agent;
-
-        private bool _canMove;
+        private readonly List<Material> _dissolveMaterials = new List<Material>();
         
+        private NavMeshAgent _agent;
+        private Sequence _sequence;
+        
+        private bool _canMove;
+
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
+
+            var renderers = GetComponents<Renderer>();
+            var childrenRenderers = GetComponentsInChildren<Renderer>();
+
+            foreach (var renderer in renderers)
+            {
+                _dissolveMaterials.Add(renderer.material);
+            }
+
+            foreach (var childrenRenderer in childrenRenderers)
+            {
+                _dissolveMaterials.Add(childrenRenderer.material);
+            }
 
             MessageBroker.Default.Receive<IMouseInputService>()
                 .Subscribe(OnMouseInputServiceReceived)
@@ -46,8 +64,20 @@ namespace GameContent.PlayerController
         private void OnCameraObjectZoomInfoReceived(bool value)
         {
             _canMove = !_canMove;
-            Debug.Log("Player received zoom object info");
-            gameObject.SetActive(!value);
+
+            DOTween.Kill("dissolveSequence", true);
+            
+            _sequence = DOTween.Sequence()
+                .Append(DOVirtual.Float((value ? 0 : 1), (value ? 1 : 0), 1f, f =>
+                    {
+                        foreach (var material in _dissolveMaterials)
+                        {
+                            material.SetFloat("_Amount", f);
+                        }
+                    }))
+                .SetId("dissolveSequence");
+            
+            Debug.Log($"{nameof(NavMeshPlayerController)}: Player received zoom object info");
         }
     }
 }
