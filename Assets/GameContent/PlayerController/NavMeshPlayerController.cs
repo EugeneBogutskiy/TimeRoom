@@ -14,8 +14,6 @@ namespace GameContent.PlayerController
         private readonly List<Material> _dissolveMaterials = new List<Material>();
         
         private NavMeshAgent _agent;
-        private Sequence _sequence;
-        
         private bool _canMove;
 
         private void Awake()
@@ -65,9 +63,9 @@ namespace GameContent.PlayerController
         {
             _canMove = !_canMove;
 
-            DOTween.Kill("dissolveSequence", true);
+            DOTween.Kill("dissolveSequence");
             
-            _sequence = DOTween.Sequence()
+            DOTween.Sequence()
                 .Append(DOVirtual.Float((value ? 0 : 1), (value ? 1 : 0), 1f, f =>
                     {
                         foreach (var material in _dissolveMaterials)

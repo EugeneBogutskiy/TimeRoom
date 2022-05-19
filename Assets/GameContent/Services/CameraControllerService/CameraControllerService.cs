@@ -111,14 +111,14 @@ namespace GameContent.Services.CameraControllerService
             
             _cameraSettings.canZoom.Value = false;
             _cameraSettings.canMove.Value = false;
+            _isOnZoomStage.Value = true;
 
             _cameraPivot.transform.DOMove(obj.transform.position, _cameraSettings.objectZoomTime);
 
             DOTween.Sequence()
                 .Append(DOVirtual.Float(_camera.orthographicSize, _cameraSettings.maxObjectZoom,
                         _cameraSettings.objectZoomTime, f => _camera.orthographicSize = f)
-                    .SetEase(_cameraSettings.zoomOnObjectEaseType))
-                .OnComplete(() => _isOnZoomStage.Value = true);
+                    .SetEase(_cameraSettings.zoomOnObjectEaseType));
         }
 
         private void UnZoomObject()
