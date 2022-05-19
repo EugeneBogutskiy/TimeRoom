@@ -14,7 +14,7 @@ Shader "Evgenoid/DissolveCharacterShader"
  
 	SubShader 
     {
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalRenderPipeline"}
 		LOD 200
 		Cull Off //Fast way to turn your material double-sided
  
