@@ -52,6 +52,7 @@ Material:
     - BOOLEAN_WROLDSPACE_OFFEST: 0
     - Vector1_692ed22e3cf14f6481f9d1c3f40afd0f: -0.11
     - Vector1_93ef06fb90484bf1b25ec8729cc2c3e2: 0
+    - _Amount: 0
     - _DierctionEdgeWidthScale: 11.43
     - _EdgeColorIntensity: 2.18
     - _EdgeWidth: 0.183

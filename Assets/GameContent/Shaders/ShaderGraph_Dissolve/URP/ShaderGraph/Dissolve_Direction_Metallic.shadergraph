@@ -2688,7 +2688,7 @@
     },
     "m_Name": "Amount",
     "m_DefaultReferenceName": "Vector1_93ef06fb90484bf1b25ec8729cc2c3e2",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_Amount",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
