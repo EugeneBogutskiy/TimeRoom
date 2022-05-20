@@ -6,7 +6,7 @@ namespace GameContent.Services.SaveLoadService.SaveLoadService
     public class SaveLoadService : ISaveLoadService
     {
         private readonly ISaveLoadSystem _saveLoadSystem;
-        
+
         public SaveLoadService(ISaveLoadSystem saveLoadSystem)
         {
             _saveLoadSystem = saveLoadSystem;

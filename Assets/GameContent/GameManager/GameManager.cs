@@ -8,6 +8,8 @@ using GameContent.Services.MouseInput.Abstract;
 using GameContent.Services.SaveLoadService.Abstract;
 using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
 using GameContent.Services.SaveLoadService.SaveLoadService;
+using GameContent.Services.SceneService;
+using GameContent.Services.SceneService.Abstract;
 using GameContent.Services.UIService;
 using GameContent.Services.UIService.Abstract;
 using GameContent.Services.WallService;
@@ -58,12 +60,15 @@ namespace GameContent.GameManager
             IInventorySystem inventorySystem = new InventorySystem.SimpleInventorySystem.InventorySystem(_inventoryView);
             IInventoryService inventoryService = new InventoryService(inventorySystem);
 
+            ISceneService sceneService = new SceneService();
+
             MessageBroker.Default.Publish(mouseInputService);
             MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
             MessageBroker.Default.Publish(uiService);
             MessageBroker.Default.Publish(saveLoadService);
             MessageBroker.Default.Publish(inventoryService);
+            MessageBroker.Default.Publish(sceneService);
         }
     }
 }

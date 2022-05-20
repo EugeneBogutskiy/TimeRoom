@@ -2,9 +2,7 @@ using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
 
 namespace GameContent.Services.SaveLoadService.Abstract
 {
-    public interface ISaveLoadSystem
+    public interface ISaveLoadSystem : ISaveLoadService
     {
-        void Save(SaveData data);
-        SaveData Load();
     }
 }
