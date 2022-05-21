@@ -5,6 +5,8 @@ using GameContent.Services.InventoryService;
 using GameContent.Services.InventoryService.Abstract;
 using GameContent.Services.MouseInput;
 using GameContent.Services.MouseInput.Abstract;
+using GameContent.Services.ObjectInteractableService;
+using GameContent.Services.ObjectInteractableService.Abstract;
 using GameContent.Services.SaveLoadService.Abstract;
 using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
 using GameContent.Services.SaveLoadService.SaveLoadService;
@@ -62,6 +64,8 @@ namespace GameContent.GameManager
 
             ISceneService sceneService = new SceneService();
 
+            IObjectInteractableService interactableService = new ObjectInteractableService();
+
             MessageBroker.Default.Publish(mouseInputService);
             MessageBroker.Default.Publish(cameraControllerService);
             MessageBroker.Default.Publish(wallService);
@@ -69,6 +73,7 @@ namespace GameContent.GameManager
             MessageBroker.Default.Publish(saveLoadService);
             MessageBroker.Default.Publish(inventoryService);
             MessageBroker.Default.Publish(sceneService);
+            MessageBroker.Default.Publish(interactableService);
         }
     }
 }
