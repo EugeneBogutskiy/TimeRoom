@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class TableInteractable : MonoBehaviour
+namespace GameContent.Entities.ExperimentalScene
 {
-    void Start()
+    public class TableInteractable : InteractableObject
     {
-        
-    }
-
-    void Update()
-    {
-        
+        public override void Interact()
+        {
+            transform.Rotate(Vector3.up, 15);
+        }
     }
 }

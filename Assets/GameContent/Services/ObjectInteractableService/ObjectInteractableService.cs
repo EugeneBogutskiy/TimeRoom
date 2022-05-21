@@ -1,14 +1,27 @@
+using GameContent.Entities.Abstract;
+using GameContent.Services.MouseInput.Abstract;
+using GameContent.Services.ObjectInteractableService.Abstract;
+using UniRx;
 using UnityEngine;
 
-public class ObjectInteractableService : MonoBehaviour
+namespace GameContent.Services.ObjectInteractableService
 {
-    void Start()
+    public class ObjectInteractableService : IObjectInteractableService
     {
-        
-    }
+        public ObjectInteractableService()
+        {
+            MessageBroker.Default.Receive<IMouseInputService>().Subscribe(OnServiceReceived);
+        }
 
-    void Update()
-    {
-        
+        private void OnServiceReceived(IMouseInputService mouseInputService)
+        {
+            mouseInputService.ClickedObject.Subscribe(OnObjectClicked);
+        }
+
+        private void OnObjectClicked(GameObject gameObject)
+        {
+            var interactable = gameObject.GetComponent<IInteractable>();
+            interactable?.Interact();
+        }
     }
 }

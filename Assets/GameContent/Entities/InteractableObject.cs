@@ -4,13 +4,14 @@ using UnityEngine;
 namespace GameContent.Entities
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class InteractableObject : MonoBehaviour, IInteractable, IItemState
+    public abstract class InteractableObject : MonoBehaviour, IInteractable, IItemState
     {
         [SerializeField]
         private string _id;
-
-        private Rigidbody _rigidbody;
+        
         private InteractableData _initialData;
+
+        protected Rigidbody _rigidbody;
 
         public string Id => _id;
 
@@ -20,10 +21,7 @@ namespace GameContent.Entities
             _initialData = new InteractableData(transform);
         }
 
-        public void Interact()
-        {
-            // here we can interact with this object
-        }
+        public abstract void Interact();
 
         public void SetState(InteractableData data)
         {

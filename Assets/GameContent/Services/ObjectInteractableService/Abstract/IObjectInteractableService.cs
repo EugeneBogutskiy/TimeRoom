@@ -1,14 +1,6 @@
-using UnityEngine;
-
-public class IObjectInteractableService : MonoBehaviour
+namespace GameContent.Services.ObjectInteractableService.Abstract
 {
-    void Start()
+    public interface IObjectInteractableService
     {
-        
-    }
-
-    void Update()
-    {
-        
     }
 }
