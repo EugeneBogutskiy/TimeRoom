@@ -18,7 +18,7 @@ namespace GameContent.Entities
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _initialData = new InteractableData(transform);
+            _initialData = new InteractableData(transform, _id);
         }
 
         public abstract void Interact();
@@ -30,7 +30,7 @@ namespace GameContent.Entities
 
         public InteractableData GetState()
         {
-            return new InteractableData(transform);
+            return new InteractableData(transform, _id);
         }
 
         public void RestoreDefaultState()
@@ -41,11 +41,13 @@ namespace GameContent.Entities
 
     public struct InteractableData
     {
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
+        public string Id { get; }
+        public Vector3 Position { get;  }
+        public Quaternion Rotation { get;  }
 
-        public InteractableData(Transform transform)
+        public InteractableData(Transform transform, string id)
         {
+            Id = id;
             Position = transform.position;
             Rotation = transform.rotation;
         }
