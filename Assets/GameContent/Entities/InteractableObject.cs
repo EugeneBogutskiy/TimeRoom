@@ -25,7 +25,8 @@ namespace GameContent.Entities
 
         public void SetState(InteractableData data)
         {
-            data.RestoreState(transform);
+            transform.position = data.Position;
+            transform.rotation = data.Rotation;
         }
 
         public InteractableData GetState()
@@ -42,8 +43,8 @@ namespace GameContent.Entities
     public struct InteractableData
     {
         public string Id { get; }
-        public Vector3 Position { get;  }
-        public Quaternion Rotation { get;  }
+        public Vector3 Position { get; set; }
+        public Quaternion Rotation { get; set; }
 
         public InteractableData(Transform transform, string id)
         {

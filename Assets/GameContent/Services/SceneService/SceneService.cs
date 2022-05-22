@@ -43,8 +43,6 @@ namespace GameContent.Services.SceneService
                 LevelId = _sceneId
             };
 
-            _sceneInteractableObjects = GameObject.FindObjectsOfType<InteractableObject>().ToList();
-            
             foreach (var interactableObject in _sceneInteractableObjects)
             {
                 var interactableData = interactableObject.GetState();
@@ -60,6 +58,26 @@ namespace GameContent.Services.SceneService
             _saveLoadService.Save(saveData);
 
             SaveInventory();
+        }
+
+        public void LoadFromSaveData()
+        {
+            var saveData = _saveLoadService.Load();
+
+            foreach (var sceneItem in saveData.SceneItems)
+            {
+                foreach (var interactableObject in _sceneInteractableObjects)
+                {
+                    if (interactableObject.Id == sceneItem.Id)
+                    {
+                        interactableObject.SetState(new InteractableData()
+                        {
+                            Position = sceneItem.Position,
+                            Rotation = sceneItem.Rotation
+                        });
+                    }
+                }
+            }
         }
 
         public void LoadScene(string sceneId)
@@ -83,6 +101,7 @@ namespace GameContent.Services.SceneService
         private void OnUIServiceReceived(IUIService uiService)
         {
             uiService.Save.Subscribe(_ => SaveScene());
+            uiService.Load.Subscribe(_ => LoadFromSaveData());
         }
 
         private void OnInventoryServiceReceived(IInventoryService inventoryService)
@@ -93,6 +112,9 @@ namespace GameContent.Services.SceneService
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
             _sceneId = scene.name;
+            
+            _sceneInteractableObjects = new List<InteractableObject>();
+            _sceneInteractableObjects = GameObject.FindObjectsOfType<InteractableObject>().ToList();
         }
         
         private void OnSceneUnloaded(Scene scene)
