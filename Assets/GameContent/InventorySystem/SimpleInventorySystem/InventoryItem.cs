@@ -6,6 +6,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
     [Serializable]
     public class InventoryItem : IInventoryItem
     {
+        [field: NonSerialized]
         public InventoryItemData Data { get; private set; }
         public int StackSize { get; private set; }
         

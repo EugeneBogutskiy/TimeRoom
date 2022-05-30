@@ -40,7 +40,8 @@ namespace GameContent.Services.SceneService
             var saveData = new SaveData()
             {
                 SceneItems = new List<SceneItem>(),
-                LevelId = _sceneId
+                LevelId = _sceneId,
+                Inventory = _inventoryService.InventorySystem.Inventory
             };
 
             foreach (var interactableObject in _sceneInteractableObjects)
@@ -56,8 +57,6 @@ namespace GameContent.Services.SceneService
             }
             
             _saveLoadService.Save(saveData);
-
-            SaveInventory();
         }
 
         public void LoadFromSaveData()
@@ -78,6 +77,8 @@ namespace GameContent.Services.SceneService
                     }
                 }
             }
+
+            _inventoryService.InventorySystem.SetInventory(saveData.Inventory);
         }
 
         public void LoadScene(string sceneId)
@@ -115,16 +116,13 @@ namespace GameContent.Services.SceneService
             
             _sceneInteractableObjects = new List<InteractableObject>();
             _sceneInteractableObjects = GameObject.FindObjectsOfType<InteractableObject>().ToList();
+
+            //в самом начале игры загружаем сохраненные данные, применяем инвентарь
+            //LoadFromSaveData();
         }
         
         private void OnSceneUnloaded(Scene scene)
         {
-        }
-        
-        private void SaveInventory()
-        {
-            //создаем данные для сохранения инвентаря игрока и его состояния
-            //отправляем данные на сохранение
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
         private readonly ReactiveCommand<Unit> _onUpdateInventory;
         private readonly Dictionary<InventoryItemData, InventoryItem> _inventoryItems;
         
-        public List<InventoryItem> Inventory { get; }
+        public List<InventoryItem> Inventory { get; private set; }
 
         public IReactiveCommand<Unit> OnUpdateInventory => _onUpdateInventory;
 
@@ -64,6 +64,13 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
             }
 
             return null;
+        }
+
+        public void SetInventory(List<InventoryItem> inventoryItems)
+        {
+            Inventory = inventoryItems;
+
+            _onUpdateInventory.Execute(Unit.Default);
         }
     }
 }

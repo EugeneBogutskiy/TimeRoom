@@ -7,6 +7,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem.Abstract
     {
         void Add(InventoryItemData referenceData);
         void Remove(InventoryItemData referenceData);
+        void SetInventory(List<InventoryItem> inventoryItems);
         InventoryItem GetInventoryItem(InventoryItemData referenceData);
         
         List<InventoryItem> Inventory { get; }
