@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using GameContent.Entities;
-using GameContent.InventorySystem.SimpleInventorySystem;
 
 namespace GameContent.Services.SaveLoadService.BinarySaveLoadSystem
 {
@@ -10,6 +9,6 @@ namespace GameContent.Services.SaveLoadService.BinarySaveLoadSystem
     {
         public string LevelId;
         public List<SceneItem> SceneItems;
-        public List<InventoryItem> Inventory;
+        public Dictionary<string, int> Inventory;
     }
 }

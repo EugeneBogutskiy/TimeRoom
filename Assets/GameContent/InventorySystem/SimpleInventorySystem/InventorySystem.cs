@@ -8,8 +8,8 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
     public class InventorySystem : IInventorySystem
     {
         private readonly ReactiveCommand<Unit> _onUpdateInventory;
-        private readonly Dictionary<InventoryItemData, InventoryItem> _inventoryItems;
         
+        public Dictionary<InventoryItemData, InventoryItem> InventoryItems { get; }
         public List<InventoryItem> Inventory { get; private set; }
 
         public IReactiveCommand<Unit> OnUpdateInventory => _onUpdateInventory;
@@ -18,7 +18,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
         {
             _onUpdateInventory = new ReactiveCommand<Unit>();
             
-            _inventoryItems = new Dictionary<InventoryItemData, InventoryItem>();
+            InventoryItems = new Dictionary<InventoryItemData, InventoryItem>();
             Inventory = new List<InventoryItem>();
 
             GameObject.Instantiate(inventoryView);
@@ -26,7 +26,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
 
         public void Add(InventoryItemData referenceData)
         {
-            if (_inventoryItems.TryGetValue(referenceData, out var value))
+            if (InventoryItems.TryGetValue(referenceData, out var value))
             {
                 value.AddToStack();
             }
@@ -34,7 +34,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
             {
                 InventoryItem item = new InventoryItem(referenceData);
                 Inventory.Add(item);
-                _inventoryItems.Add(referenceData, item);
+                AddToInventoryItems(referenceData, item);
             }
 
             _onUpdateInventory.Execute(Unit.Default);
@@ -42,23 +42,28 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
 
         public void Remove(InventoryItemData referenceData)
         {
-            if (_inventoryItems.TryGetValue(referenceData, out var value))
+            if (InventoryItems.TryGetValue(referenceData, out var value))
             {
                 value.RemoveFromStack();
 
                 if (value.StackSize == 0)
                 {
                     Inventory.Remove(value);
-                    _inventoryItems.Remove(referenceData);
+                    InventoryItems.Remove(referenceData);
                 }
             }
 
             _onUpdateInventory.Execute(Unit.Default);
         }
 
+        public void AddToInventoryItems(InventoryItemData itemData, InventoryItem item)
+        {
+            InventoryItems.Add(itemData, item);
+        }
+
         public InventoryItem GetInventoryItem(InventoryItemData referenceData)
         {
-            if (_inventoryItems.TryGetValue(referenceData, out var value))
+            if (InventoryItems.TryGetValue(referenceData, out var value))
             {
                 return value;
             }
@@ -66,6 +71,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
             return null;
         }
 
+        // Set inventory from save data
         public void SetInventory(List<InventoryItem> inventoryItems)
         {
             Inventory = inventoryItems;

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using GameContent.Entities;
+using GameContent.InventorySystem.SimpleInventorySystem;
 using GameContent.Services.InventoryService.Abstract;
 using GameContent.Services.SaveLoadService.Abstract;
 using GameContent.Services.SaveLoadService.BinarySaveLoadSystem;
@@ -8,6 +10,7 @@ using GameContent.Services.SceneService.Abstract;
 using GameContent.Services.UIService.Abstract;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace GameContent.Services.SceneService
@@ -41,9 +44,10 @@ namespace GameContent.Services.SceneService
             {
                 SceneItems = new List<SceneItem>(),
                 LevelId = _sceneId,
-                Inventory = _inventoryService.InventorySystem.Inventory
+                Inventory = new Dictionary<string, int>()
             };
 
+            // Fill SaveData with scene items
             foreach (var interactableObject in _sceneInteractableObjects)
             {
                 var interactableData = interactableObject.GetState();
@@ -56,13 +60,24 @@ namespace GameContent.Services.SceneService
                 });
             }
             
+            // Fill SaveData with Inventory Items
+            foreach (var inventoryItem in _inventoryService.InventorySystem.Inventory)
+            {
+                var itemId = inventoryItem.Data.id;
+                
+                saveData.Inventory.Add(itemId, inventoryItem.StackSize);
+            }
+            
             _saveLoadService.Save(saveData);
         }
 
-        public void LoadFromSaveData()
+        public async void LoadFromSaveData()
         {
+            // Запускаем перезагрузку игры, загружаем данные
+            
             var saveData = _saveLoadService.Load();
 
+            // Set items in scene
             foreach (var sceneItem in saveData.SceneItems)
             {
                 foreach (var interactableObject in _sceneInteractableObjects)
@@ -77,8 +92,24 @@ namespace GameContent.Services.SceneService
                     }
                 }
             }
+            
+            // Set inventory
+            var inventoryItems = new List<InventoryItem>();
 
-            _inventoryService.InventorySystem.SetInventory(saveData.Inventory);
+            foreach (var inventoryItem in saveData.Inventory)
+            {
+                var itemData = await LoadItemDataAsync(inventoryItem);
+                var item = new InventoryItem(itemData);
+                item.RemoveFromStack(int.MaxValue);
+                item.AddToStack(inventoryItem.Value);
+                inventoryItems.Add(item);
+
+                if (_inventoryService.InventorySystem.InventoryItems.ContainsKey(itemData)) continue;
+
+                _inventoryService.InventorySystem.AddToInventoryItems(itemData, item);
+            }
+
+            _inventoryService.InventorySystem.SetInventory(inventoryItems);
         }
 
         public void LoadScene(string sceneId)
@@ -123,6 +154,12 @@ namespace GameContent.Services.SceneService
         
         private void OnSceneUnloaded(Scene scene)
         {
+        }
+
+        private async UniTask<InventoryItemData> LoadItemDataAsync(KeyValuePair<string, int> inventoryItem)
+        {
+            var asset = await Addressables.LoadAssetAsync<InventoryItemData>(inventoryItem.Key);
+            return asset;
         }
     }
 }

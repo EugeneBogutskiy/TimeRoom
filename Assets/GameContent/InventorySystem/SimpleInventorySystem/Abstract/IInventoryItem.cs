@@ -2,7 +2,7 @@ namespace GameContent.InventorySystem.SimpleInventorySystem.Abstract
 {
     public interface IInventoryItem
     {
-        void AddToStack();
-        void RemoveFromStack();
+        void AddToStack(int count);
+        void RemoveFromStack(int count);
     }
 }

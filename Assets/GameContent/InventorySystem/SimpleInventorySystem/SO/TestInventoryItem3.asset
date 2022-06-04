@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bb7f9b31baf324b876f20570864021, type: 3}
   m_Name: TestInventoryItem3
   m_EditorClassIdentifier: 
-  id: Capsule
+  id: InventoryTestItemCapsule
   displayName: Capsule
   icon: {fileID: 21300000, guid: e44437befeb9fc54b82b6053fd4bf31d, type: 3}
   prefab: {fileID: 0}

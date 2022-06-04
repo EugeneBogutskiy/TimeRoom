@@ -16,14 +16,16 @@ namespace GameContent.InventorySystem.SimpleInventorySystem
             AddToStack();
         }
         
-        public void AddToStack()
+        public void AddToStack(int count = 1)
         {
-            StackSize++;
+            StackSize += count;
         }
 
-        public void RemoveFromStack()
+        public void RemoveFromStack(int count = 1)
         {
-            StackSize--;
+            var tempValue = StackSize -= count;
+
+            StackSize = tempValue <= 0 ? StackSize = 0 : StackSize -= count;
         }
     }
 }
